@@ -1,5 +1,5 @@
-import Product from "../model/productModel";
-import Order from "../model/orderModel";
+import Product from "../model/productModel.js";
+import Order from "../model/orderModel.js";
 
 // @desc    get a product
 // @route   GET /api/products
