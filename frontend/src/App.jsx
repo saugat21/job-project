@@ -22,25 +22,30 @@ const App = () => {
     });
   };
 
-  // Handle Checkbox Toggle
   const handleToggle = (product) => {
     setSelectedProducts((prev) => {
       const isSelected = prev.find((p) => p._id === product._id);
-      if (isSelected) {
-        return prev.filter((p) => p._id !== product._id);
-      } else {
-        return [...prev, product];
-      }
+      const updatedSelectedProducts = isSelected
+        ? prev.filter((p) => p._id !== product._id)
+        : [...prev, product];
+
+      updatePackages(updatedSelectedProducts);
+      return updatedSelectedProducts;
     });
   };
 
-  // Place Order
-  const handlePlaceOrder = () => {
-    axios
-      .post("http://localhost:5000/api/submitorder", { selectedProducts })
-      .then((response) => {
-        setPackages(response.data);
-      });
+  const updatePackages = (updatedSelectedProducts) => {
+    if (updatedSelectedProducts.length === 0) {
+      setPackages([]);
+    } else {
+      axios
+        .post("http://localhost:5000/api/submitorder", {
+          selectedProducts: updatedSelectedProducts,
+        })
+        .then((response) => {
+          setPackages(response.data);
+        });
+    }
   };
 
   return (
@@ -62,11 +67,6 @@ const App = () => {
         selectedProducts={selectedProducts}
         handleToggle={handleToggle}
       />
-      <div className="text-center mb-4">
-        <button className="btn btn-success" onClick={handlePlaceOrder}>
-          Place Order
-        </button>
-      </div>
       <OrderSummary packages={packages} />
       <AddProduct fetchProducts={fetchProducts} />
     </div>
