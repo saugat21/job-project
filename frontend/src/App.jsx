@@ -17,9 +17,11 @@ const App = () => {
   }, []);
 
   const fetchProducts = () => {
-    axios.get("http://localhost:5000/api/getproducts").then((response) => {
-      setProducts(response.data);
-    });
+    axios
+      .get("https://job-project-ld1b.onrender.com/api/getproducts")
+      .then((response) => {
+        setProducts(response.data);
+      });
   };
 
   const handleToggle = (product) => {
@@ -39,7 +41,7 @@ const App = () => {
       setPackages([]);
     } else {
       axios
-        .post("http://localhost:5000/api/submitorder", {
+        .post("https://job-project-ld1b.onrender.com/api/submitorder", {
           selectedProducts: updatedSelectedProducts,
         })
         .then((response) => {

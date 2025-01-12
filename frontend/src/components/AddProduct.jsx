@@ -22,11 +22,13 @@ const AddProduct = ({ fetchProducts }) => {
     }
 
     setError("");
-    axios.post("http://localhost:5000/api/addproduct", newProduct).then(() => {
-      fetchProducts();
-      setNewProduct({ name: "", price: "", weight: "" });
-      document.getElementById("closeModalButton").click();
-    });
+    axios
+      .post("https://job-project-ld1b.onrender.com/api/addproduct", newProduct)
+      .then(() => {
+        fetchProducts();
+        setNewProduct({ name: "", price: "", weight: "" });
+        document.getElementById("closeModalButton").click();
+      });
   };
 
   return (
