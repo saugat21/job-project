@@ -7,6 +7,7 @@ const connectDB = async () => {
     } catch (error) {
         console.log("MongoDb not connected");
         console.log(`Error:${error.message}`);
+        console.error(`Stack Trace: ${error.stack}`);
         process.exit(1);
     }
 }

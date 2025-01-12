@@ -6,9 +6,11 @@ import packageRoute from "./route/packageRoute.js"
 
 dotenv.config();
 
-connectDB();
+
 
 const app= express();
+
+connectDB();
 
 const PORT = process.env.PORT || 5000
 

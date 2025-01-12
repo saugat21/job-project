@@ -52,4 +52,16 @@ const submitOrder=async(req,res)=>{
     }
 }
 
-export {getProducts,submitOrder};
+const addProduct= async (req, res) => {
+    const { name, price, weight } = req.body;
+
+    try {
+        const product = new Product({ name, price, weight });
+        await product.save();
+        res.status(201).json({ message: 'Product added successfully', product });
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding product', error });
+    }
+};
+
+export {getProducts,submitOrder,addProduct};
