@@ -3,13 +3,14 @@ import axios from "axios";
 import ProductList from './components/ProductList';
 import AddProduct from './components/AddProduct';
 import OrderSummary from './components/OrderSummary';
+import Loader from './components/Loader';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [packages, setPackages] = useState([]);
- 
+  const [isLoading, setIsLoading] = useState(false); 
 
   // Fetch Products
   useEffect(() => {
@@ -17,10 +18,17 @@ const App = () => {
   }, []);
 
   const fetchProducts = () => {
+    setIsLoading(true); 
     axios
       .get("https://job-project-ld1b.onrender.com/api/getproducts")
       .then((response) => {
         setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+      })
+      .finally(() => {
+        setIsLoading(false); 
       });
   };
 
@@ -63,17 +71,19 @@ const App = () => {
           Add New Product
         </button>
       </div>
-
-      <ProductList
-        products={products}
-        selectedProducts={selectedProducts}
-        handleToggle={handleToggle}
-      />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <ProductList
+          products={products}
+          selectedProducts={selectedProducts}
+          handleToggle={handleToggle}
+        />
+      )}
       <OrderSummary packages={packages} />
       <AddProduct fetchProducts={fetchProducts} />
     </div>
   );
-
 }
 
 export default App
